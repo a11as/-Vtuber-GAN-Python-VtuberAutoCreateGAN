@@ -1,2 +1,2 @@
 # VtuberAutoCreateGAN
- Vtuberを顔を生成するGAN 
+Vtuberの顔を生成するGAN
