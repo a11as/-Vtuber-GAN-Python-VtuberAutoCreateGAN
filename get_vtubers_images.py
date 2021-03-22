@@ -39,7 +39,7 @@ def get_search_result(parameter):
     return search, results, estNumResults
 
 def get_image(name,parameter):
-    total = 0 # 画像を通し番号名にする
+    total = 0 # ファイル名を通し番号で保存
     search, results, estNumResults = get_search_result(parameter)
 
     for offset in range(0, estNumResults, GROUP_SIZE):
@@ -72,25 +72,26 @@ def get_image(name,parameter):
                     print('skip:System error')
                     continue
 
-# 検索名リストのパス
-target_csv_path = './target.csv'
-target = pd.read_csv(target_csv_path)
-for line in target.values:
-    
-    if line[1] == 1.0:
-        continue
-    
-    print(line[0])
-    parameter = {
-        'q': line[0],
-        'offset': 0,
-        'count': GROUP_SIZE,
-        'imageType':'Photo',
-        'color':'ColorOnly'
-    }
+if __name__ == "__main__":
+    # 検索名リストのパス
+    target_csv_path = './target.csv'
+    target = pd.read_csv(target_csv_path)
+    for line in target.values:
+        
+        if line[1] == 1.0:
+            continue
+        
+        print(line[0])
+        parameter = {
+            'q': line[0],
+            'offset': 0,
+            'count': GROUP_SIZE,
+            'imageType':'Photo',
+            'color':'ColorOnly'
+        }
 
-    get_image(line[0],parameter)
+        get_image(line[0],parameter)
 
-    target.loc[target['VtuberName'] == line[0], 'IgnoreFlag'] = 1
-    target.to_csv(target_csv_path, index=False)
+        target.loc[target['VtuberName'] == line[0], 'IgnoreFlag'] = 1
+        target.to_csv(target_csv_path, index=False)
     
